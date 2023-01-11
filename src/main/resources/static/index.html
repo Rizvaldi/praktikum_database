@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>WS Consume</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" ></script>
+    <body>
+        <div>Data Test sender</div>
+        <hr><!-- comment -->
+        <script>
+            const url = "http://localhost:8080/POST";
+            function post(){
+                let genID = Math.floor(Math.random() * 500);
+            let dataText = {"id":genID,"name":"Haris Setiawan","birthdate":"1969-03-12"};
+            let dataJson = JSON.stringify(dataText);
+            
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: dataJson,
+                    contentType:'Application/json',
+                    dataType: 'text',
+                    success: function(result){
+                        console.log(result);
+                    }
+                });
+            }
+            
+            function put(){
+                const urlp = "http://localhost:8080/PUT";
+                let editID = document.getElementById("myid").Value;
+                let name = document.getElementById("name").Value;
+                let date = document.getElementById("birthdate").Value;
+                let dataText = {"id":editID,"name":name,"birthdate":"1969-03-12"};
+                let dataJson = JSON.stringify(dataText);
+            
+                $.ajax({
+                    url: urlp,
+                    method: 'PUT',
+                    data: dataJson,
+                    contentType:'Application/json',
+                    dataType: 'text',
+                    success: function(result){
+                        console.log(result);
+                    }
+                });
+            }
+           
+           function get(){
+               const urlg = "http://localhost:8080/GET";
+               
+               $.ajax({
+                    url: urlg,
+                    method: 'GET',
+                    dataType: 'text',
+                    success: function(result){
+                        document.getElementById("viewer").innerHTML = result;
+                    }
+                });
+           }
+           
+           function del(){
+               let delID = document.getElementById("myid").velue;
+               const urld = "http://localhost:8080/DEL"+delID;
+               $.ajax({
+                    url: urld,
+                    method: 'DELETE',
+                    dataType: 'text',
+                    success: function(result){
+                        document.getElementById("viewer").innerHTML = result;
+                    }
+                });
+           }
+        </script>
+        <input type="text" id="myid" name="myid">
+        <input type="text" id="name" name="name">
+        <input type="date" id="birthdate" name="birthdate">
+        <hr>
+        <button onclick="get()">Get the Data from Web Server</button><br>
+        <button onclick="post()">Send to Web Server</button><br>
+        <button onclick="put()">Edit the Data of web Server</button><br>
+        <button onclick="del()">Delete the Data of  Web Server</button>
+        <hr><!-- comment -->
+        <div id="viewer"></div>
+    </body>
+</html>
